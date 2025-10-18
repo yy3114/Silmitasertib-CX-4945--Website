@@ -1,0 +1,206 @@
+<!DOCTYPE html><html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI 在新藥研發：以 Silmitasertib 為例</title>
+  <style>
+    :root{
+      --bg:#0b1220;--panel:#101a2f;--ink:#e8eefc;--muted:#9db1d9;--brand:#5aa2ff;--accent:#7ae0c3;--warn:#ffd166;
+      --radius:16px;--shadow:0 10px 30px rgba(0,0,0,.35);
+    }
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family: ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,PingFang TC,Microsoft JhengHei,Helvetica,Arial,sans-serif;line-height:1.7}
+    a{color:var(--brand);text-decoration:none}
+    a:hover{text-decoration:underline}
+    header{
+      position:sticky;top:0;background:linear-gradient(180deg,rgba(11,18,32,.9),rgba(11,18,32,.6));backdrop-filter: blur(8px);
+      border-bottom:1px solid rgba(255,255,255,.06);z-index:10
+    }
+    .wrap{max-width:1100px;margin:0 auto;padding:20px}
+    .title{display:flex;align-items:center;gap:14px}
+    .logo{width:46px;height:46px;border-radius:12px;background:linear-gradient(135deg,var(--brand),var(--accent));box-shadow:var(--shadow)}
+    h1{font-size:clamp(24px,4.5vw,40px);margin:0}
+    .subtitle{color:var(--muted);margin-top:4px}
+    .grid{display:grid;gap:18px;grid-template-columns:repeat(12,1fr)}
+    .card{grid-column: span 12;background:var(--panel);border:1px solid rgba(255,255,255,.06);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px}
+    @media(min-width:860px){.span6{grid-column: span 6}.span4{grid-column: span 4}.span8{grid-column: span 8}}.kpi{display:flex;flex-wrap:wrap;gap:14px}
+.pill{padding:8px 12px;border-radius:999px;background:rgba(122,224,195,.12);border:1px solid rgba(122,224,195,.35);color:#c7ffee}
+
+h2{font-size:clamp(20px,3.2vw,28px);margin:0 0 10px}
+h3{margin:10px 0 6px}
+.tldr{display:grid;gap:12px}
+.tldr .point{display:flex;gap:10px;align-items:flex-start;background:rgba(90,162,255,.08);border:1px solid rgba(90,162,255,.25);padding:12px;border-radius:12px}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--brand);margin-top:7px}
+
+table{width:100%;border-collapse:collapse;overflow:hidden;border-radius:12px}
+th,td{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.08);vertical-align:top}
+th{background:rgba(255,255,255,.04);text-align:left}
+tr:hover td{background:rgba(255,255,255,.03)}
+
+.callout{border:1px dashed rgba(255,255,255,.25);border-radius:14px;padding:12px 14px;background:rgba(255,255,255,.03)}
+.tag{display:inline-block;margin:2px 6px 2px 0;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.06);color:var(--muted);font-size:12px}
+
+.foot{color:var(--muted);font-size:12px;margin-top:6px}
+footer{margin:30px 0 60px;color:var(--muted);text-align:center}
+.btn{display:inline-block;padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:rgba(90,162,255,.1)}
+code{background:rgba(255,255,255,.08);padding:2px 6px;border-radius:6px}
+
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="title">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <h1>AI 在新藥研發：以 <em>Silmitasertib (CX‑4945)</em> 為例</h1>
+          <div class="subtitle">門診／教學可用的一頁式重點，作者：yy 醫師專用版本</div>
+        </div>
+      </div>
+    </div>
+  </header>  <main class="wrap">
+    <!-- TL;DR -->
+    <section class="grid" id="tldr">
+      <div class="card">
+        <h2>TL;DR：一句話看懂</h2>
+        <div class="tldr">
+          <div class="point"><div class="dot"></div><div><strong>Silmitasertib</strong> 是小分子 <strong>CK2 抑制劑</strong>；在早期研究中可增強腫瘤對免疫系統的可見度並與化療協同。</div></div>
+          <div class="point"><div class="dot"></div><div>與 <strong>Google AI</strong> 的關係：並非 Google 開發；但在以 AI 進行的 <strong>虛擬篩選／內容分析</strong> 裡曾被模型點名為候選藥物。</div></div>
+          <div class="point"><div class="dot"></div><div>臨床最成熟的線別是 <strong>膽管癌</strong>（曾獲 FDA 孤兒藥資格）；其餘如 HCC、PDAC、腦瘤等仍在探索階段。</div></div>
+        </div>
+        <div class="kpi" style="margin-top:12px">
+          <span class="pill">標靶：CK2（Casein Kinase 2）</span>
+          <span class="pill">類別：ATP 競爭型抑制劑</span>
+          <span class="pill">別名：CX‑4945 / Silmitasertib sodium</span>
+        </div>
+      </div>
+    </section><!-- 基本資料與 Google AI 關係 -->
+<section class="grid">
+  <div class="card span6">
+    <h2>Silmitasertib 基本資訊</h2>
+    <table>
+      <tr><th style="width:160px">作用機制</th><td>抑制 <strong>CK2</strong> 的絲/蘇胺酸激酶活性，阻斷多條存活與修復訊號；可能提升 <strong>MHC‑I 抗原呈現</strong>。</td></tr>
+      <tr><th>研發公司</th><td>Senhwa Biosciences（三惠生技，美國/台灣）</td></tr>
+      <tr><th>開發現況</th><td>多個早期臨床；最聚焦於膽管癌（與 <em>Gemcitabine + Cisplatin</em> 並用）。</td></tr>
+      <tr><th>可能副作用</th><td>常見為胃腸道不適、疲倦、皮疹、肝指數波動等（以試驗通報為準）。</td></tr>
+    </table>
+    <div class="foot">＊本頁為學術摘要，臨床以實際試驗方案與仿單為準。</div>
+  </div>
+  <div class="card span6">
+    <h2>它跟 Google AI 的關係？</h2>
+    <p>藥物本身不是 Google 開發，但 <strong>AI 驅動的虛擬篩選/資料礦挖</strong>（包括學研單位與雲端服務上的工具，如 DeepMind、Google Cloud AI 生醫工具鏈）在解析轉錄體/蛋白交互與藥物靶點時，<strong>曾把 Silmitasertib 篩入候選清單</strong>。這種流程屬於 <em>Drug Repurposing / Target Discovery</em> 的應用範例。</p>
+    <div class="callout"><strong>重點：</strong>Google/DeepMind 提供的是 <em>模型與平台</em>；Silmitasertib 是 <em>第三方公司</em> 的藥。AI 扮演「助攻」而非藥品擁有者。</div>
+    <div style="margin-top:10px">
+      <span class="tag">AlphaFold 蛋白結構</span>
+      <span class="tag">虛擬篩選</span>
+      <span class="tag">多組學整合</span>
+      <span class="tag">病人分層</span>
+      <span class="tag">試驗設計最佳化</span>
+    </div>
+  </div>
+</section>
+
+<!-- AI 在新藥研發流程 -->
+<section class="grid">
+  <div class="card">
+    <h2>AI 在新藥研發：五大常見應用</h2>
+    <ol>
+      <li><strong>結構與靶點預測：</strong>利用 AlphaFold 與同源建模預測未知結構，協助 <em>結構導向設計（SBDD）</em>。</li>
+      <li><strong>虛擬篩選（Virtual Screening）：</strong>以深度學習/圖神經網路在百萬級化合物庫中預估結合能與 ADMET；<em>Silmitasertib</em> 在免疫相關情境的資料驅動篩選中被點名。</li>
+      <li><strong>生成式分子設計：</strong>以生成模型（VAE、Diffusion、Transformer）提出新骨架或最佳化藥效/選擇性。</li>
+      <li><strong>病人分層與反應預測：</strong>透過轉錄體、體細胞突變與臨床資料，預測誰最可能受益；也能找出合併治療的機會。</li>
+      <li><strong>臨床試驗智慧化：</strong>試驗地點選擇、入排準則模擬、事件觸發監測與合規風險偵測。</li>
+    </ol>
+  </div>
+</section>
+
+<!-- 臨床進展表格 -->
+<section class="grid">
+  <div class="card">
+    <h2>Silmitasertib：研究與臨床進展（精選）</h2>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:160px">腫瘤別</th>
+          <th>研究型態/階段</th>
+          <th>目前亮點</th>
+          <th>備註</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>膽管癌（BTC/CCA）</strong></td>
+          <td>早期臨床（多與 Gemcitabine + Cisplatin 並用）</td>
+          <td>觀察到初步療效訊號與可接受安全性；獲 FDA 孤兒藥資格</td>
+          <td>最成熟線別，需更大規模試驗驗證</td>
+        </tr>
+        <tr>
+          <td><strong>肝細胞癌（HCC）</strong></td>
+          <td>前臨床 / 聯用 Cabozantinib</td>
+          <td>在動物模型降低腫瘤負荷、誘導凋亡</td>
+          <td>等待臨床轉譯</td>
+        </tr>
+        <tr>
+          <td><strong>胰臟癌（PDAC）</strong></td>
+          <td>前臨床 / 轉譯研究</td>
+          <td>CK2 與吉西他濱抗藥相關，抑制 CK2 具策略合理性</td>
+          <td>臨床仍屬探索</td>
+        </tr>
+        <tr>
+          <td><strong>大腸直腸癌（CRC）</strong></td>
+          <td>前臨床</td>
+          <td>可誘發 <em>methuosis‑like</em> 非典型細胞死亡</td>
+          <td>人體資料有限</td>
+        </tr>
+        <tr>
+          <td><strong>腦瘤（髓母細胞瘤 SHH）</strong></td>
+          <td>Phase I/II 進行中</td>
+          <td>曾獲 FDA Fast Track（特別審查通道）</td>
+          <td>兒少族群研究中</td>
+        </tr>
+        <tr>
+          <td><strong>難治實體瘤／兒少腫瘤</strong></td>
+          <td>Phase I/II（合併化療）</td>
+          <td>已完成 IND；部分由 NCI 支持</td>
+          <td>包含尤文氏肉瘤、骨肉瘤、神經母細胞瘤等</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="foot">＊各研究之結果與狀態以官方登錄與期刊更新為準。</div>
+  </div>
+</section>
+
+<!-- 臨床提示與口袋結論 -->
+<section class="grid">
+  <div class="card span8">
+    <h2>臨床使用提示（研究場域）</h2>
+    <ul>
+      <li><strong>病人篩選：</strong>優先鎖定 CK2 路徑活化、對 DNA 修復高度依賴，或對雙藥化療出現抗藥跡象者。</li>
+      <li><strong>合併策略：</strong>與 DNA 損傷相關藥物（如 <em>Gemcitabine/Cisplatin</em>）或多靶向 TKI（如 <em>Cabozantinib</em>）有理論協同。</li>
+      <li><strong>藥物安全：</strong>關注肝腎功能、皮膚與腸胃道不良反應；依試驗方案監測 DLT/MTD/RP2D。</li>
+    </ul>
+  </div>
+  <div class="card span4">
+    <h2>口袋版結論</h2>
+    <ul>
+      <li>AI 幫忙「找題目」，不是「做藥的人」。</li>
+      <li>Silmitasertib 在膽管癌最有進度，其它癌別仍在驗證。</li>
+      <li>臨床仍屬試驗導向；以生物標記分層最有機會看到效益。</li>
+    </ul>
+    <a class="btn" href="#tldr">回到頁首 ↑</a>
+  </div>
+</section>
+
+<!-- 備註 -->
+<section class="grid">
+  <div class="card">
+    <h2>備註</h2>
+    <p>本頁面為教學用途的整理摘要，內容以公開論文與臨床註冊為基礎進行歸納，<strong>不構成醫療建議</strong>。臨床決策請依指南、適應症與病人條件決定。</p>
+    <p class="foot">最後更新：<script>document.write(new Date().toISOString().slice(0,10))</script></p>
+  </div>
+</section>
+
+  </main>  <footer>
+    <p>© 2025 yy 的臨床小抄｜需要投影片或列印版？請告訴我～</p>
+  </footer>
+</body>
+</html>
